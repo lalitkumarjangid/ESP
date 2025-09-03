@@ -119,6 +119,43 @@ NODE_ENV=development
 FRONTEND_URL=http://localhost:3000
 ```
 
+## 🚀 Deployment
+
+### Render Deployment (Recommended)
+
+This backend is optimized for deployment on Render with full IMAP support.
+
+#### Quick Deploy:
+1. Connect your GitHub repo to [Render](https://dashboard.render.com)
+2. Create a new Blueprint (auto-detects `render.yaml`)
+3. Set environment variables
+4. Deploy! 🎉
+
+#### Environment Variables for Render:
+```bash
+MONGODB_URI=your-mongodb-connection-string
+IMAP_USER=your-gmail@gmail.com
+IMAP_PASSWORD=your-16-char-app-password
+FRONTEND_URL=https://your-frontend.onrender.com
+NODE_ENV=production
+PORT=10000
+```
+
+#### Files for Render:
+- `render.yaml` - Blueprint configuration
+- `Dockerfile` - Docker deployment option
+- `RENDER-DEPLOYMENT.md` - Detailed deployment guide
+
+#### Run Deployment Script:
+```bash
+./deploy-render.sh
+```
+
+### Other Deployment Options:
+- Railway, Heroku, DigitalOcean App Platform
+- Docker containers
+- Traditional VPS hosting
+
 ## 🏗️ Project Structure
 
 ```

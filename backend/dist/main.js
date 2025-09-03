@@ -4,17 +4,12 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://your-frontend.onrender.com';
     const nodeEnv = process.env.NODE_ENV || 'development';
     app.enableCors({
         origin: nodeEnv === 'production'
-            ? [frontendUrl]
-            : [
-                'http://localhost:3000',
-                'http://localhost:3001',
-                'http://localhost:3002',
-                frontendUrl,
-            ],
+            ? [frontendUrl, 'https://your-frontend.vercel.app']
+            : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', frontendUrl],
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization'],
     });
@@ -25,6 +20,6 @@ async function bootstrap() {
     console.log(`🌍 Environment: ${nodeEnv}`);
     console.log(`📧 Email Analysis API ready for Lucid Growth Assignment`);
     console.log(`🔗 Frontend URL: ${frontendUrl}`);
+    console.log(`📊 IMAP monitoring: Active (polling every 60 seconds)`);
 }
-bootstrap();
 //# sourceMappingURL=main.js.map
