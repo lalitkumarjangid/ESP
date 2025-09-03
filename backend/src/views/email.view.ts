@@ -18,10 +18,10 @@ export class EmailResponseDto {
   subject: string; // Test email subject
 
   @Expose()
-  receivingChain: { 
-    server: string; 
-    ip?: string; 
-    timestamp?: string; 
+  receivingChain: {
+    server: string;
+    ip?: string;
+    timestamp?: string;
     position?: number;
   }[]; // Sequence of servers email passed through
 

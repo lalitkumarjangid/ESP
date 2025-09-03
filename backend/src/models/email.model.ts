@@ -13,10 +13,10 @@ export class Email {
   subject: string; // Subject line used to identify test email
 
   @Prop({ type: [Object] }) // Receiving chain data structure
-  receivingChain: { 
-    server: string; 
-    ip?: string; 
-    timestamp?: string; 
+  receivingChain: {
+    server: string;
+    ip?: string;
+    timestamp?: string;
     position?: number;
   }[];
 

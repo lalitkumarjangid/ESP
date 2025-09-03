@@ -4,6 +4,6 @@ import { EmailModule } from './email.module';
 
 @Module({
   imports: [EmailModule],
-  providers: [ImapService]
+  providers: [ImapService],
 })
 export class ImapModule {}

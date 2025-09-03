@@ -1,6 +1,10 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { EmailService } from '../services/email.service';
-import { GenerateEmailDto, EmailResponseDto, EmailSummaryDto } from '../views/email.view';
+import {
+  GenerateEmailDto,
+  EmailResponseDto,
+  EmailSummaryDto,
+} from '../views/email.view';
 
 /**
  * Email Analysis Controller for Lucid Growth Assignment
@@ -24,7 +28,9 @@ export class EmailController {
    * Returns receiving chain and ESP type for specific email
    */
   @Get('results/:id')
-  async getEmailResults(@Param('id') id: string): Promise<EmailResponseDto | null> {
+  async getEmailResults(
+    @Param('id') id: string,
+  ): Promise<EmailResponseDto | null> {
     return this.emailService.getEmailById(id);
   }
 
@@ -69,7 +75,9 @@ export class EmailController {
    * POST /email/process with email headers
    */
   @Post('process')
-  async processRealEmail(@Body() body: { subject: string; rawEmail: string }): Promise<EmailResponseDto> {
+  async processRealEmail(
+    @Body() body: { subject: string; rawEmail: string },
+  ): Promise<EmailResponseDto> {
     return this.emailService.processEmail(body.rawEmail, body.subject);
   }
 }
