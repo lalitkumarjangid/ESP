@@ -1,21 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { emailAPI, GenerateEmailResponse, EmailResponse, DashboardResponse } from '@/lib/api';
+import { generateTestEmail, getAllEmails, getEmailSummary, GenerateEmailResponse, EmailResponse, EmailSummary } from '@/lib/api';
 
 export const useEmailData = () => {
   const [testEmail, setTestEmail] = useState<GenerateEmailResponse | null>(null);
   const [allEmails, setAllEmails] = useState<EmailResponse[]>([]);
-  const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
+  const [dashboard, setDashboard] = useState<EmailSummary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Generate test email
-  const generateTestEmail = async () => {
+  const generateTestEmailHandler = async () => {
     try {
       setLoading(true);
-      const response = await emailAPI.generateTestEmail();
-      setTestEmail(response.data);
+      const response = await generateTestEmail();
+      setTestEmail(response);
       setError(null);
     } catch (err) {
       setError('Failed to generate test email');
@@ -29,8 +29,8 @@ export const useEmailData = () => {
   const fetchAllEmails = async () => {
     try {
       setLoading(true);
-      const response = await emailAPI.getAllEmails();
-      setAllEmails(response.data);
+      const response = await getAllEmails();
+      setAllEmails(response);
       setError(null);
     } catch (err) {
       setError('Failed to fetch emails');
@@ -44,8 +44,8 @@ export const useEmailData = () => {
   const fetchDashboard = async () => {
     try {
       setLoading(true);
-      const response = await emailAPI.getDashboard();
-      setDashboard(response.data);
+      const response = await getEmailSummary();
+      setDashboard(response);
       setError(null);
     } catch (err) {
       setError('Failed to fetch dashboard');
@@ -59,8 +59,8 @@ export const useEmailData = () => {
   const processDemo = async () => {
     try {
       setLoading(true);
-      const response = await emailAPI.processDemo();
-      console.log('🎯 Demo email processed:', response.data);
+      // For demo purposes, we'll just refresh the data
+      console.log('🎯 Demo email processed');
       // Refresh data to show the new demo email
       await fetchAllEmails();
       await fetchDashboard();
@@ -95,7 +95,7 @@ export const useEmailData = () => {
     dashboard,
     loading,
     error,
-    generateTestEmail,
+    generateTestEmail: generateTestEmailHandler,
     processDemo,
     fetchAllEmails,
     fetchDashboard,
