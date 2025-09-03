@@ -41,6 +41,15 @@ export class EmailController {
    * Get dashboard summary
    * Provides analytics for the frontend dashboard
    */
+  @Get('summary')
+  async getSummary(): Promise<EmailSummaryDto> {
+    return this.emailService.getDashboardSummary();
+  }
+
+  /**
+   * Get dashboard summary (alternative endpoint)
+   * Provides analytics for the frontend dashboard
+   */
   @Get('dashboard')
   async getDashboard(): Promise<EmailSummaryDto> {
     return this.emailService.getDashboardSummary();
@@ -60,7 +69,7 @@ export class EmailController {
    * POST /email/process with email headers
    */
   @Post('process')
-  async processRealEmail(@Body() body: { subject: string; headers: string }): Promise<EmailResponseDto> {
-    return this.emailService.processEmail(body.headers, body.subject);
+  async processRealEmail(@Body() body: { subject: string; rawEmail: string }): Promise<EmailResponseDto> {
+    return this.emailService.processEmail(body.rawEmail, body.subject);
   }
 }

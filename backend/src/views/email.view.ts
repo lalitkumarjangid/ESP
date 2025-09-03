@@ -51,11 +51,11 @@ export class EmailSummaryDto {
   totalEmails: number;
 
   @Expose()
-  uniqueESPs: string[];
+  totalProcessed: number;
 
   @Expose()
-  averageServerCount: number;
+  averageProcessingTime: number;
 
   @Expose()
-  recentEmails: EmailResponseDto[];
+  espDistribution: Record<string, number>;
 }

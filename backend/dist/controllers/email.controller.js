@@ -30,6 +30,9 @@ let EmailController = class EmailController {
     async getAllEmails() {
         return this.emailService.getAllEmails();
     }
+    async getSummary() {
+        return this.emailService.getDashboardSummary();
+    }
     async getDashboard() {
         return this.emailService.getDashboardSummary();
     }
@@ -37,7 +40,7 @@ let EmailController = class EmailController {
         return this.emailService.processDemo();
     }
     async processRealEmail(body) {
-        return this.emailService.processEmail(body.headers, body.subject);
+        return this.emailService.processEmail(body.rawEmail, body.subject);
     }
 };
 exports.EmailController = EmailController;
@@ -60,6 +63,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], EmailController.prototype, "getAllEmails", null);
+__decorate([
+    (0, common_1.Get)('summary'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EmailController.prototype, "getSummary", null);
 __decorate([
     (0, common_1.Get)('dashboard'),
     __metadata("design:type", Function),

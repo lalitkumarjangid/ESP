@@ -389,44 +389,37 @@ export class EmailService {
 
   // Get dashboard summary (Assignment Requirement) - optimized for performance
   async getDashboardSummary(): Promise<EmailSummaryDto> {
-    // Use aggregation pipeline for better performance
+    // Use aggregation pipeline to get ESP distribution and processing times
     const [emailStats] = await this.emailModel.aggregate([
       { $match: { processed: true } },
       {
         $group: {
           _id: null,
           totalEmails: { $sum: 1 },
-          uniqueESPs: { $addToSet: '$espType' },
-          totalServers: { $sum: { $size: { $ifNull: ['$receivingChain', []] } } }
+          totalProcessed: { $sum: { $cond: [{ $eq: ['$processed', true] }, 1, 0] } },
+          avgProcessingTime: { $avg: '$metadata.processingTime' },
+          espTypes: { $push: '$espType' }
         }
       }
     ]);
 
-    // Get recent emails separately for better performance
-    const recentEmails = await this.emailModel
-      .find({ processed: true })
-      .sort({ timestamp: -1 })
-      .limit(5)
-      .exec();
+    // Calculate ESP distribution
+    const espDistribution: Record<string, number> = {};
+    if (emailStats?.espTypes) {
+      emailStats.espTypes.forEach((esp: string) => {
+        espDistribution[esp] = (espDistribution[esp] || 0) + 1;
+      });
+    }
 
     const totalEmails = emailStats?.totalEmails || 0;
-    const uniqueESPs = emailStats?.uniqueESPs || [];
-    const averageServerCount = totalEmails > 0 ? Math.round((emailStats?.totalServers || 0) / totalEmails) : 0;
+    const totalProcessed = emailStats?.totalProcessed || 0;
+    const averageProcessingTime = emailStats?.avgProcessingTime || 0;
 
     return {
       totalEmails,
-      uniqueESPs,
-      averageServerCount,
-      recentEmails: recentEmails.map(email => ({
-        id: (email._id as any).toString(),
-        subject: email.subject,
-        receivingChain: email.receivingChain,
-        espType: email.espType,
-        timestamp: email.timestamp,
-        processed: email.processed,
-        senderEmail: email.senderEmail,
-        metadata: email.metadata
-      }))
+      totalProcessed,
+      averageProcessingTime: Math.round(averageProcessingTime),
+      espDistribution
     };
   }
 

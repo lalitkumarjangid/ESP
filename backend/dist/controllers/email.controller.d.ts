@@ -6,10 +6,11 @@ export declare class EmailController {
     generateTestEmail(): GenerateEmailDto;
     getEmailResults(id: string): Promise<EmailResponseDto | null>;
     getAllEmails(): Promise<EmailResponseDto[]>;
+    getSummary(): Promise<EmailSummaryDto>;
     getDashboard(): Promise<EmailSummaryDto>;
     processDemo(): Promise<EmailResponseDto>;
     processRealEmail(body: {
         subject: string;
-        headers: string;
+        rawEmail: string;
     }): Promise<EmailResponseDto>;
 }

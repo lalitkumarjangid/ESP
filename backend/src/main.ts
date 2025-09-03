@@ -10,9 +10,12 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
+
+  // Set global API prefix
+  app.setGlobalPrefix('api');
   
-  await app.listen(process.env.PORT ?? 3000);
-  console.log('🚀 Backend running on http://localhost:3000');
+  await app.listen(process.env.PORT ?? 3001);
+  console.log('🚀 Backend running on http://localhost:3001');
   console.log('📧 Email Analysis API ready for Lucid Growth Assignment');
 }
 bootstrap();
